@@ -44,6 +44,6 @@ app.use((req, res, next) => {
 })
 
 app.use(routes)
-app.listen(port, () => console.log(`alphitter listening on port ${port}!`))
+app.listen(port, () => console.log(`app is on http://localhost:${port}`))
 
 module.exports = app
