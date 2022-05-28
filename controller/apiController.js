@@ -5,8 +5,8 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 imgur.setClientId(IMGUR_CLIENT_ID)
 const apiController = {
   editUser: async (req, res, next) => {
+    const loginUserId = helpers.getUser(req) && helpers.getUser(req).id
     try {
-      const loginUserId = helpers.getUser(req) && helpers.getUser(req).id
       if (Number(req.params.id) !== loginUserId) throw new Error('不可修改其他人資料！')
       const userData = await User.findOne({
         where: {
