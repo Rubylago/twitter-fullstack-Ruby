@@ -33,27 +33,8 @@ const tweetsController = {
           }
         })
       // 右側topUsers, sort by跟隨者follower數量 & isFollowed 按鈕
-      const users = await User.findAll({
-        where: { isAdmin: false },
-        attributes: ['id', 'name', 'account', 'avatar'],
-        include: { model: User, as: 'Followers' }
-      })
-      const topUsers = users
-        .map(user => {
-          return user.get({ plain: true })
-        })
-        .map(u => {
-          return {
-            ...u,
-            Followers: u.Followers.length,
-            isFollowed:
-              helpers.getUser(req) &&
-              helpers.getUser(req).Followings &&
-              helpers.getUser(req).Followings.some(f => f.id === Number(u.id))
-          }
-        })
-        .sort((a, b) => b.Followers - a.Followers)
-        .slice(0, 10)
+      const topUsers = await top.topUsers(req)
+
       return res.render('index', { tweets, topUsers, page: 'tweets' })
     } catch (err) {
       next(err)
@@ -93,27 +74,7 @@ const tweetsController = {
       })
 
       // 右側topUsers, sort by跟隨者follower數量 & isFollowed 按鈕
-      const users = await User.findAll({
-        where: { isAdmin: false },
-        attributes: ['id', 'name', 'account', 'avatar'],
-        include: { model: User, as: 'Followers' }
-      })
-      const topUsers = users
-        .map(user => {
-          return user.get({ plain: true })
-        })
-        .map(u => {
-          return {
-            ...u,
-            Followers: u.Followers.length,
-            isFollowed:
-              helpers.getUser(req) &&
-              helpers.getUser(req).Followings &&
-              helpers.getUser(req).Followings.some(f => f.id === Number(u.id))
-          }
-        })
-        .sort((a, b) => b.Followers - a.Followers)
-        .slice(0, 10)
+      const topUsers = await top.topUsers(req)
 
       return res.render('tweet', { tweet: result, replies, topUsers })
     } catch (err) {

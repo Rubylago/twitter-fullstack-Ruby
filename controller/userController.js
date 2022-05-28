@@ -4,6 +4,7 @@ const helpers = require('../_helpers')
 const imgur = require('imgur')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 imgur.setClientId(IMGUR_CLIENT_ID)
+const top = require('../helpers/top10')
 
 const userController = {
   signUpPage: async (req, res) => {
@@ -121,27 +122,7 @@ const userController = {
       })
 
       // 右側Top10User
-      const users = await User.findAll({
-        where: { isAdmin: false },
-        attributes: ['id', 'name', 'account', 'avatar'],
-        include: { model: User, as: 'Followers' }
-      })
-      const topUsers = users
-        .map(user => {
-          return user.get({ plain: true })
-        })
-        .map(u => {
-          return {
-            ...u,
-            Followers: u.Followers.length,
-            isFollowed:
-              helpers.getUser(req) &&
-              helpers.getUser(req).Followings &&
-              helpers.getUser(req).Followings.some(f => f.id === Number(u.id))
-          }
-        })
-        .sort((a, b) => b.Followers - a.Followers)
-        .slice(0, 10)
+      const topUsers = await top.topUsers(req)
 
       return res.render('user', {
         user: paramsUser.toJSON(),
@@ -196,28 +177,8 @@ const userController = {
         helpers.getUser(req).Followings &&
         helpers.getUser(req).Followings.some(f => f.id === Number(userId))
 
-      // 右側topUsers, sort by跟隨者follower數量 & isFollowed 按鈕
-      const users = await User.findAll({
-        where: { isAdmin: false },
-        attributes: ['id', 'name', 'account', 'avatar'],
-        include: { model: User, as: 'Followers' }
-      })
-      const topUsers = users
-        .map(user => {
-          return user.get({ plain: true })
-        })
-        .map(u => {
-          return {
-            ...u,
-            Followers: u.Followers.length,
-            isFollowed:
-              helpers.getUser(req) &&
-              helpers.getUser(req).Followings &&
-              helpers.getUser(req).Followings.some(f => f.id === Number(u.id))
-          }
-        })
-        .sort((a, b) => b.Followers - a.Followers)
-        .slice(0, 10)
+      // 右側topUsers
+      const topUsers = await top.topUsers(req)
 
       return res.render('likes', {
         user: user.toJSON(),
@@ -283,28 +244,9 @@ const userController = {
         helpers.getUser(req).Followings &&
         helpers.getUser(req).Followings.some(f => f.id === Number(userId))
 
-      // 右側topUsers, sort by跟隨者follower數量 & isFollowed 按鈕
-      const users = await User.findAll({
-        where: { isAdmin: false },
-        attributes: ['id', 'name', 'account', 'avatar'],
-        include: { model: User, as: 'Followers' }
-      })
-      const topUsers = users
-        .map(user => {
-          return user.get({ plain: true })
-        })
-        .map(u => {
-          return {
-            ...u,
-            Followers: u.Followers.length,
-            isFollowed:
-              helpers.getUser(req) &&
-              helpers.getUser(req).Followings &&
-              helpers.getUser(req).Followings.some(f => f.id === Number(u.id))
-          }
-        })
-        .sort((a, b) => b.Followers - a.Followers)
-        .slice(0, 10)
+      // 右側topUsers
+      const topUsers = await top.topUsers(req)
+
       return res.render('replies', {
         user: user.toJSON(),
         replies,
@@ -429,27 +371,7 @@ const userController = {
         .sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
 
       // 右側Top10User
-      const users = await User.findAll({
-        where: { isAdmin: false },
-        attributes: ['id', 'name', 'account', 'avatar'],
-        include: { model: User, as: 'Followers' }
-      })
-      const topUsers = users
-        .map(user => {
-          return user.get({ plain: true })
-        })
-        .map(u => {
-          return {
-            ...u,
-            Followers: u.Followers.length,
-            isFollowed:
-              helpers.getUser(req) &&
-              helpers.getUser(req).Followings &&
-              helpers.getUser(req).Followings.some(f => f.id === Number(u.id))
-          }
-        })
-        .sort((a, b) => b.Followers - a.Followers)
-        .slice(0, 10)
+      const topUsers = await top.topUsers(req)
 
       return res.render('followings', {
         currentUser: currentUser.toJSON(),
@@ -493,27 +415,7 @@ const userController = {
         .sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
 
       // 右側Top10User
-      const users = await User.findAll({
-        where: { isAdmin: false },
-        attributes: ['id', 'name', 'account', 'avatar'],
-        include: { model: User, as: 'Followers' }
-      })
-      const topUsers = users
-        .map(user => {
-          return user.get({ plain: true })
-        })
-        .map(u => {
-          return {
-            ...u,
-            Followers: u.Followers.length,
-            isFollowed:
-              helpers.getUser(req) &&
-              helpers.getUser(req).Followings &&
-              helpers.getUser(req).Followings.some(f => f.id === Number(u.id))
-          }
-        })
-        .sort((a, b) => b.Followers - a.Followers)
-        .slice(0, 10)
+      const topUsers = await top.topUsers(req)
 
       return res.render('followers', {
         currentUser: currentUser.toJSON(),
