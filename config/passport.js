@@ -13,22 +13,14 @@ passport.use(
     (req, account, password, cb) => {
       User.findOne({ where: { account } }).then(user => {
         if (!user) {
-          return cb(null, false, req.flash('error_messages', '帳號不存在！'))
-        }
-        // 後台登入限制
-        if (req.url === '/admin/signin' && user.role === 'user') {
-          return cb(null, false, req.flash('error_messages', '帳號不存在！'))
-        }
-        // 前台登入限制
-        if (req.url === '/signin' && user.role === 'admin') {
-          return cb(null, false, req.flash('error_messages', '帳號不存在！'))
+          return cb(null, false, req.flash('error_messages', '帳號不存在'))
         }
         bcrypt.compare(password, user.password).then(res => {
           if (!res) {
             return cb(
               null,
               false,
-              req.flash('error_messages', '密碼輸入錯誤！')
+              req.flash('error_messages', '密碼輸入錯誤')
             )
           }
           return cb(null, user)

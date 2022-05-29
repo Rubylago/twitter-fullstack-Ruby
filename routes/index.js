@@ -1,21 +1,18 @@
 const express = require('express')
 const router = express.Router()
-const { authenticated, authenticatedAdmin } = require('../middleware/auth')
+const { authenticated } = require('../middleware/auth')
 const { generalErrorHandler } = require('../middleware/error-handler')
 const upload = require('../middleware/multer')
-
 const passport = require('../config/passport')
+
+const admin = require('./modules/admin')
+
 const userController = require('../controller/userController')
 const tweetController = require('../controller/tweetsController.js')
-const adminController = require('../controller/adminController.js')
 const apiController = require('../controller/apiController.js')
 
 // Admin
-router.get('/admin/signin', adminController.signinPage)
-router.post('/admin/signin', passport.authenticate('local', { failureRedirect: '/admin/signin', failureFlash: true }), adminController.signIn)
-router.get('/admin/tweets', authenticatedAdmin, adminController.getTweets)
-router.delete('/admin/tweets/:id', authenticatedAdmin, adminController.deleteTweets)
-router.get('/admin/users', authenticatedAdmin, adminController.getUsers)
+router.use('/admin', admin)
 
 // 使用者登入
 router.get('/signin', userController.signInPage)
