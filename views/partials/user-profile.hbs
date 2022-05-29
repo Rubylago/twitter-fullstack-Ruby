@@ -167,35 +167,5 @@ height: 610px;border-radius: 20px;">
     </div>
   </div>
 </div>
-
-<script>cover.onchange = evt => {
-    const [file] = cover.files
-    if (file) {
-      coverImg.src = URL.createObjectURL(file)
-    }
-  }</script>
-
-<script>avatar.onchange = evt => {
-    const [file] = avatar.files
-    if (file) {
-      avatarImg.src = URL.createObjectURL(file)
-    }
-  }</script>
-
-<script>function validate() {
-    const areatextarea = document.querySelector("#introduction")
-    const areatext = document.querySelector("#introduction").value.length
-    const textcount = document.querySelector("#textcount")
-    const wordcount = document.querySelector("#count")
-    textcount.innerHTML = areatext
-  }
-</script>
-
-<script>function validateName() {
-    const areatextarea = document.querySelector("#textname")
-    const areatext = document.querySelector("#textname").value.length
-    const textcount = document.querySelector("#textnamecount")
-    const wordcount = document.querySelector("#namecount")
-    textcount.innerHTML = areatext
-  }
-</script>
+<script src="/javascripts/preview.js"></script>
+<script src="/javascripts/textLength.js"></script>

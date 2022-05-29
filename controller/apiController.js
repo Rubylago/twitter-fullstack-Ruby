@@ -1,8 +1,6 @@
 const { User } = require('../models')
 const helpers = require('../_helpers')
-const imgur = require('imgur')
-const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
-imgur.setClientId(IMGUR_CLIENT_ID)
+
 const apiController = {
   editUser: async (req, res, next) => {
     const loginUserId = helpers.getUser(req) && helpers.getUser(req).id
