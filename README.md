@@ -1,6 +1,6 @@
-# alphitter 1.0
+# twitter MVP專案 
 ## 簡介
-Alphitter 為 alphacamp 學期三團體協作專案，主要目的為依照 User story 與指定規格複製一個 twitter，並從中實際體驗軟體開發流程。
+以全端方式製作twitter MVP，涵蓋核心功能如推文/回文、追蹤/按愛心功能、使用者個人頁面與後台管理。
 
 ## 功能
 
